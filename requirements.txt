@@ -1,3 +1,2 @@
-os
 yt_dlp
 Flask
