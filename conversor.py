@@ -1,13 +1,19 @@
 import os
+import base64
 import yt_dlp
+from flask import jsonify
 
 # output_directory = r"C:\Users\Desktop\Documents\Rockstar Games\GTA V\User Music"
 # musics teste: https://youtu.be/ZyfrHUV6nH0?si=HgcWDv_4Oz0nnyQc 
 # https://youtu.be/nd_m17VsRh0?si=af5-8Zi4CawLRL5s
-from flask import jsonify
 
 # recebe UMA url de video no youtube e baixa o audio
 def download_audio(ytb_url):    
+
+    cookies_base64 = os.environ.get('YOUTUBE_COOKIES')
+    with open('cookies.txt', 'wb') as f:
+        f.write(base64.b64decode(cookies_base64))
+    
     ydl_opts = {
         'format': 'bestaudio/best',
         'postprocessors': [{
@@ -15,6 +21,7 @@ def download_audio(ytb_url):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
+        'cookiefile':'cookies.txt'
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
