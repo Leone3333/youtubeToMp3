@@ -11,8 +11,6 @@ from flask import Flask, jsonify, send_file, request
 def download_audio(ytb_url):    
 
     cookies_base64 = os.environ.get('YOUTUBE_COOKIES')
-    cookies_path = '/tmp/cookies.txt'  # Usar diretório temporário
-
 
     with open('cookies.txt', 'wb') as f:
         f.write(base64.b64decode(cookies_base64))
@@ -24,7 +22,7 @@ def download_audio(ytb_url):
             'preferredcodec': 'mp3',
             'preferredquality': '192',
         }],
-        'cookiefile':cookies_path,
+        'cookiefile':'cookies.txt',
         'outtmpl': '/tmp/temp_audio.%(ext)s',  # Salvar o arquivo temporariamente no servidor
     }
     try:
