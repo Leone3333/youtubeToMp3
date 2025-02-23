@@ -1,7 +1,8 @@
 import os
 import base64
 import yt_dlp
-from flask import Flask, jsonify, send_file, request, safe_join
+from flask import Flask, jsonify, send_file, request
+from werkzeug.utils import safe_join
 
 app = Flask(__name__)
 
@@ -40,6 +41,7 @@ def download_audio():
         if os.path.exists(mp3_path):
             # Usar safe_join para evitar problemas de path traversal
             safe_mp3_path = safe_join('/tmp', os.path.basename(mp3_path))
+            # Forçar o download no navegador
             return send_file(safe_mp3_path, as_attachment=True, download_name=f"{info_dict['title']}.mp3", mimetype='audio/mpeg')
         else:
             return jsonify({"erro": "Arquivo MP3 não encontrado!"}), 500
