@@ -8,8 +8,7 @@ app = Flask(__name__)
 
 # Rota para baixar o áudio do YouTube como MP3
 @app.route('/converter', methods=['POST'])
-def download_audio():
-    ytb_url = request.json.get('ytb_url')  # URL do YouTube passada no corpo da requisição
+def download_audio(ytb_url):
     if not ytb_url:
         return jsonify({"erro": "A URL do YouTube é necessária!"}), 400
 
